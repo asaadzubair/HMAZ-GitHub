@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qstar Wave | Results-Driven Digital Solutions</title>
+    <meta name="description" content="Professional digital agency specializing in Web Development, SEO, and Content Writing. Get results-driven solutions with Qstar Wave.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header id="header">
+        <nav class="container">
+            <a href="#" class="logo">
+                <img src="assets/logo-icon.png" alt="Qstar Wave Logo" class="logo-img">
+                <span class="logo-text">Qstar <span class="thin">Wave</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contact" class="btn btn-primary">Contact Us</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i data-lucide="menu"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <span class="badge">Innovation & Growth</span>
+                <h1>Results-Driven <span class="text-gradient">Digital Solutions</span></h1>
+                <p>Empowering brands with cutting-edge web development, expert SEO, and high-impact content writing to dominate the digital landscape.</p>
+                <div class="hero-btns">
+                    <a href="https://wa.me/923091479392?text=Hello%20Qstar%20Wave!%20I'm%20interested%20in%20your%20digital%20solutions." class="btn btn-primary btn-lg">
+                        <i data-lucide="message-circle"></i> Chat on WhatsApp
+                    </a>
+                    <a href="#services" class="btn btn-outline btn-lg">Explore Services</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="counter" data-target="50">0</span>+
+                        <span class="stat-label">Projects Done</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="counter" data-target="30">0</span>+
+                        <span class="stat-label">Happy Clients</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image-wrapper">
+                    <img src="assets/hero-bg.png" alt="Digital Solutions Illustration" class="hero-img">
+                    <div class="floating-card SEO">
+                        <i data-lucide="trending-up"></i>
+                        <span>SEO Growth</span>
+                    </div>
+                    <div class="floating-card DEV">
+                        <i data-lucide="code"></i>
+                        <span>Web Dev</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-bg-accent"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section-padding">
+        <div class="container grid-2">
+            <div class="about-image">
+                <div class="founder-card">
+                    <div class="avatar-placeholder">AZ</div>
+                    <div class="founder-info">
+                        <h3>Asaad Zubair</h3>
+                        <p>Founder & Strategist</p>
+                    </div>
+                </div>
+                <div class="about-shapes">
+                    <div class="shape s1"></div>
+                    <div class="shape s2"></div>
+                </div>
+            </div>
+            <div class="about-content">
+                <h2 class="section-title">Crafting Digital <span class="text-gradient">Excellence</span></h2>
+                <p>Qstar Wave was founded by Asaad Zubair with a simple mission: to bridge the gap between businesses and their digital potential. We aren't just a service provider; we are your strategic partner in growth.</p>
+                <p>With deep expertise in modern web architectures, data-driven SEO strategies, and persuasive content writing, we help both local Pakistani and international clients build a presence that converts visitors into loyal customers.</p>
+                <ul class="feature-list">
+                    <li><i data-lucide="check-circle" class="text-primary"></i> Custom & WordPress Development</li>
+                    <li><i data-lucide="check-circle" class="text-primary"></i> Technical & Local SEO Mastery</li>
+                    <li><i data-lucide="check-circle" class="text-primary"></i> Conversion-Optimized Content</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services section-padding bg-light">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Our <span class="text-gradient">Core Services</span></h2>
+                <p class="section-subtitle">We provide a comprehensive suite of digital services designed to scale your business.</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Primary Service: Web Dev -->
+                <div class="service-card primary">
+                    <div class="service-icon"><i data-lucide="monitor"></i></div>
+                    <h3>Website Development</h3>
+                    <p>High-performance, responsive websites built with Custom code or WordPress. Scalable, secure, and SEO-ready.</p>
+                    <ul class="service-features">
+                        <li>Custom Web Apps</li>
+                        <li>CMS / WordPress</li>
+                        <li>E-commerce Solutions</li>
+                    </ul>
+                    <a href="https://wa.me/923091479392?text=Hi!%20I'm%20interested%20in%20Website%20Development%20services." class="btn btn-text mobile-wa">Contact on WhatsApp <i data-lucide="arrow-right"></i></a>
+                </div>
+
+                <!-- Primary Service: SEO -->
+                <div class="service-card primary">
+                    <div class="service-icon"><i data-lucide="search"></i></div>
+                    <h3>Search Engine Optimization</h3>
+                    <p>Rank higher and get more organic traffic. From technical audits to local SEO and quality backlink building.</p>
+                    <ul class="service-features">
+                        <li>On-Page & Technical SEO</li>
+                        <li>Off-Page / Link Building</li>
+                        <li>Local & Global Targeting</li>
+                    </ul>
+                    <a href="https://wa.me/923091479392?text=Hi!%20I'm%20interested%20in%20SEO%20services." class="btn btn-text mobile-wa">Contact on WhatsApp <i data-lucide="arrow-right"></i></a>
+                </div>
+
+                <!-- Primary Service: Content -->
+                <div class="service-card primary">
+                    <div class="service-icon"><i data-lucide="pen-tool"></i></div>
+                    <h3>Content Writing</h3>
+                    <p>Compelling SEO articles and professional copy that engages your audience and drives conversions across platforms.</p>
+                    <ul class="service-features">
+                        <li>SEO Blog Posts</li>
+                        <li>Copywriting</li>
+                        <li>Product Descriptions</li>
+                    </ul>
+                    <a href="https://wa.me/923091479392?text=Hi!%20I'm%20interested%20in%20Content%20Writing%20services." class="btn btn-text mobile-wa">Contact on WhatsApp <i data-lucide="arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="secondary-services">
+                <h4 class="text-center mt-4">More Ways We Can Help</h4>
+                <div class="secondary-grid">
+                    <div class="mini-card">
+                        <i data-lucide="palette"></i>
+                        <span>Logo Design</span>
+                    </div>
+                    <div class="mini-card">
+                        <i data-lucide="share-2"></i>
+                        <span>Social Media Posts</span>
+                    </div>
+                    <div class="mini-card">
+                        <i data-lucide="users"></i>
+                        <span>SMM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Built with <span class="text-gradient">Precision</span></h2>
+                <div class="filter-btns">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web">Web</button>
+                    <button class="filter-btn" data-filter="seo">SEO</button>
+                    <button class="filter-btn" data-filter="content">Content</button>
+                </div>
+            </div>
+
+            <div class="portfolio-grid">
+                <!-- Example Project 1 -->
+                <div class="portfolio-item" data-category="web">
+                    <div class="portfolio-thumb">
+                        <div class="thumb-overlay">
+                            <i data-lucide="external-link"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="SaaS Dashboard">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>FinTech Dashboard</h4>
+                        <p>Custom React Development</p>
+                    </div>
+                </div>
+                <!-- Example Project 2 -->
+                <div class="portfolio-item" data-category="seo">
+                    <div class="portfolio-thumb">
+                        <div class="thumb-overlay">
+                            <i data-lucide="bar-chart"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1551288049-bbbda536ad0b?auto=format&fit=crop&w=800&q=80" alt="SEO Results">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Local HVAC Growth</h4>
+                        <p>300% Organic Traffic Increase</p>
+                    </div>
+                </div>
+                <!-- Example Project 3 -->
+                <div class="portfolio-item" data-category="content">
+                    <div class="portfolio-thumb">
+                        <div class="thumb-overlay">
+                            <i data-lucide="type"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80" alt="Tech Blog">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Tech-Trend AI Series</h4>
+                        <p>100+ SEO Articles Published</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <div class="container banner-inner">
+            <h3>Ready to scale your digital presence?</h3>
+            <p>Let's discuss your project and create a winning strategy together.</p>
+            <a href="https://wa.me/923091479392?text=Hello!%20I'm%20ready%20to%20scale%20my%20business.%20Let's%20talk!" class="btn btn-white">
+                <i data-lucide="phone"></i> Get a Free Quote
+            </a>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog section-padding bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">The <span class="text-gradient">Latest Insights</span></h2>
+                <a href="#" class="view-all">View All Articles <i data-lucide="chevron-right"></i></a>
+            </div>
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80" alt="SEO 2026">
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-tag">SEO</span>
+                        <h4>Mastering Local SEO in 2026</h4>
+                        <p>How to dominate local search results and get more customers nearby.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=800&q=80" alt="Web Performance">
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-tag">Web Dev</span>
+                        <h4>Speed Matters: Boost Conversions</h4>
+                        <p>Why website loading speed is the #1 factor for SEO and user retention.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Frequently Asked <span class="text-gradient">Questions</span></h2>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How long does a website project take?</span>
+                        <i data-lucide="plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Typically, a standard WordPress site takes 1-2 weeks, while custom development projects can take 3-6 weeks depending on complexity.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you provide ongoing SEO maintenance?</span>
+                        <i data-lucide="plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, SEO is an ongoing process. We offer monthly maintenance packages to ensure your rankings continue to grow and adapt to algorithm changes.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can you write content for any niche?</span>
+                        <i data-lucide="plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our writers specialize in tech, business, finance, and lifestyle, but we conduct deep research to provide expert-level content for most industries.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section-padding bg-light">
+        <div class="container grid-2">
+            <div class="contact-info">
+                <h2 class="section-title">Let's <span class="text-gradient">Connect</span></h2>
+                <p>Have a question or a project idea? Reach out to us through any of these channels.</p>
+                <div class="contact-methods">
+                    <div class="method">
+                        <i data-lucide="mail"></i>
+                        <div>
+                            <h5>Email Us</h5>
+                            <p>contact@qstarwave.com</p>
+                        </div>
+                    </div>
+                    <div class="method">
+                        <i data-lucide="phone"></i>
+                        <div>
+                            <h5>Call / WhatsApp</h5>
+                            <p>+92 309 1479392</p>
+                        </div>
+                    </div>
+                    <div class="method">
+                        <i data-lucide="map-pin"></i>
+                        <div>
+                            <h5>Location</h5>
+                            <p>Lahore, Pakistan (Serving Globally)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form-wrapper">
+                <form id="quote-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Interested Service</label>
+                        <select id="service">
+                            <option value="web">Web Development</option>
+                            <option value="seo">SEO Optimization</option>
+                            <option value="content">Content Writing</option>
+                            <option value="other">Other Services</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="4" placeholder="Tell us about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <img src="assets/logo-icon.png" alt="Qstar Wave Logo" class="logo-img">
+                    <span class="logo-text">Qstar <span class="thin">Wave</span></span>
+                </a>
+                <p>Transforming complex digital challenges into simple, elegant, and results-driven solutions.</p>
+                <div class="social-links">
+                    <a href="#"><i data-lucide="facebook"></i></a>
+                    <a href="#"><i data-lucide="twitter"></i></a>
+                    <a href="#"><i data-lucide="linkedin"></i></a>
+                    <a href="#"><i data-lucide="instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h5>Quick Links</h5>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h5>Services</h5>
+                <ul>
+                    <li><a href="#">Web Development</a></li>
+                    <li><a href="#">SEO Strategy</a></li>
+                    <li><a href="#">Content Writing</a></li>
+                    <li><a href="#">Logo Design</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 Qstar Wave. All Rights Reserved. Founded by Asaad Zubair.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/923091479392?text=Hello%20Qstar%20Wave!%20I'm%20visiting%20your%20website%20and%20would%20like%20to%20inquire%20about..." class="floating-wa" id="wa-button">
+        <i data-lucide="message-circle"></i>
+        <span class="wa-tooltip">Chat with us!</span>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>

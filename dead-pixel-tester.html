@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dead Pixel Tester – Screen Test Tool</title>
+
+<style>
+:root {
+  --panel-bg: rgba(20, 20, 20, 0.85);
+  --btn-bg: #2a2a2a;
+  --btn-hover: #444;
+  --text: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background: black;
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* Test Area */
+#testArea {
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  transition: background 0.25s ease;
+}
+
+/* Color Label */
+#colorLabel {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  opacity: 0.85;
+  z-index: 20;
+}
+
+/* Control Panel */
+#controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel-bg);
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  z-index: 20;
+}
+
+button, select {
+  background: var(--btn-bg);
+  color: var(--text);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+button:hover, select:hover {
+  background: var(--btn-hover);
+}
+
+/* Pixel Repair Box */
+#repairBox {
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  top: 40%;
+  left: 40%;
+  display: none;
+  cursor: move;
+  z-index: 30;
+}
+
+/* Fullscreen Hint */
+#hint {
+  position: fixed;
+  bottom: 6px;
+  right: 10px;
+  font-size: 11px;
+  opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<div id="testArea"></div>
+<div id="colorLabel">Black</div>
+
+<div id="controls">
+  <button onclick="prevColor()">◀</button>
+  <button onclick="nextColor()">▶</button>
+  <button onclick="toggleFullscreen()">Fullscreen</button>
+  <button onclick="toggleAuto()">Auto</button>
+  <select id="intervalSelect">
+    <option value="2000">2s</option>
+    <option value="5000">5s</option>
+    <option value="10000">10s</option>
+  </select>
+  <button onclick="toggleRepair()">Pixel Repair</button>
+</div>
+
+<div id="repairBox"></div>
+<div id="hint">Click / Space / Arrow Keys • ESC to exit</div>
+
+<script>
+const colors = [
+  { name: "Black", value: "#000000" },
+  { name: "White", value: "#ffffff" },
+  { name: "Red", value: "#ff0000" },
+  { name: "Green", value: "#00ff00" },
+  { name: "Blue", value: "#0000ff" },
+  { name: "Yellow", value: "#ffff00" },
+  { name: "Cyan", value: "#00ffff" },
+  { name: "Magenta", value: "#ff00ff" }
+];
+
+let index = 0;
+let autoTimer = null;
+let repairTimer = null;
+let repairColor = 0;
+
+const testArea = document.getElementById("testArea");
+const label = document.getElementById("colorLabel");
+const repairBox = document.getElementById("repairBox");
+
+function applyColor() {
+  testArea.style.background = colors[index].value;
+  label.textContent = colors[index].name;
+  label.style.color = index === 0 ? "#fff" : "#000";
+}
+
+function nextColor() {
+  index = (index + 1) % colors.length;
+  applyColor();
+}
+
+function prevColor() {
+  index = (index - 1 + colors.length) % colors.length;
+  applyColor();
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+function toggleAuto() {
+  if (autoTimer) {
+    clearInterval(autoTimer);
+    autoTimer = null;
+  } else {
+    const interval = document.getElementById("intervalSelect").value;
+    autoTimer = setInterval(nextColor, interval);
+  }
+}
+
+function toggleRepair() {
+  if (repairTimer) {
+    clearInterval(repairTimer);
+    repairTimer = null;
+    repairBox.style.display = "none";
+  } else {
+    repairBox.style.display = "block";
+    repairTimer = setInterval(() => {
+      const rgb = ["#ff0000", "#00ff00", "#0000ff"];
+      repairBox.style.background = rgb[repairColor % 3];
+      repairColor++;
+    }, 80);
+  }
+}
+
+/* Click anywhere to change color */
+testArea.addEventListener("click", nextColor);
+
+/* Keyboard controls */
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight" || e.key === " ") nextColor();
+  if (e.key === "ArrowLeft") prevColor();
+});
+
+/* Drag repair box */
+let drag = false;
+repairBox.addEventListener("mousedown", () => drag = true);
+document.addEventListener("mouseup", () => drag = false);
+document.addEventListener("mousemove", e => {
+  if (drag) {
+    repairBox.style.left = e.clientX - 60 + "px";
+    repairBox.style.top = e.clientY - 60 + "px";
+  }
+});
+
+applyColor();
+</script>
+
+</body>
+</html>

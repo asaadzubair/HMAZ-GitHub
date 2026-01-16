@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Steps to Calories Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,Segoe UI,sans-serif}
+body{
+  background:#f6f7fb;
+  color:#333;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#ff416c,#ff4b2b);
+  color:white;
+  padding:25px;
+  text-align:center;
+}
+header h1{
+  font-size:34px;
+}
+header p{
+  opacity:0.9;
+}
+
+/* MAIN */
+main{
+  max-width:900px;
+  margin:40px auto;
+  padding:20px;
+}
+
+/* CALCULATOR CARD */
+.calculator{
+  background:white;
+  padding:30px;
+  border-radius:18px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.1);
+  animation:fadeIn 1s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.calculator h2{
+  text-align:center;
+  margin-bottom:20px;
+  color:#ff416c;
+}
+
+.form-group{
+  margin-bottom:20px;
+}
+label{
+  font-weight:600;
+  display:block;
+  margin-bottom:6px;
+}
+input,select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  font-size:16px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(135deg,#ff416c,#ff4b2b);
+  border:none;
+  border-radius:50px;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{
+  transform:scale(1.05);
+}
+
+/* RESULT */
+.result{
+  margin-top:25px;
+  padding:20px;
+  background:#fff0f4;
+  border-radius:14px;
+  display:none;
+  animation:pop 0.6s ease;
+}
+@keyframes pop{
+  from{transform:scale(0.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.result h3{
+  color:#ff416c;
+}
+
+/* INFO */
+.info{
+  margin-top:40px;
+  background:white;
+  padding:30px;
+  border-radius:18px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+.info h2{
+  color:#ff416c;
+  margin-bottom:15px;
+}
+.info p{
+  line-height:1.8;
+  margin-bottom:15px;
+}
+
+/* FOOTER */
+footer{
+  margin-top:60px;
+  background:#222;
+  color:#bbb;
+  padding:25px;
+  text-align:center;
+}
+footer a{
+  color:#ff4b2b;
+  text-decoration:none;
+  margin:0 10px;
+}
+
+@media(max-width:600px){
+  header h1{font-size:26px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Steps to Calories Calculator</h1>
+  <p>Estimate how many calories you burn based on your steps</p>
+</header>
+
+<main>
+
+  <div class="calculator">
+    <h2>Calculate Calories Burned</h2>
+
+    <div class="form-group">
+      <label>Number of Steps</label>
+      <input type="number" id="steps" placeholder="Enter steps (e.g. 8000)">
+    </div>
+
+    <div class="form-group">
+      <label>Your Weight</label>
+      <input type="number" id="weight" placeholder="Weight">
+    </div>
+
+    <div class="form-group">
+      <label>Weight Unit</label>
+      <select id="unit">
+        <option value="kg">Kilograms (kg)</option>
+        <option value="lb">Pounds (lb)</option>
+      </select>
+    </div>
+
+    <button onclick="calculate()">Calculate Calories</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <div class="info">
+    <h2>What is a Steps to Calories Calculator?</h2>
+    <p>
+      A steps to calories calculator helps you estimate how many calories you burn
+      while walking or running. The calculation is based on your total steps,
+      body weight, and an average calorie burn rate.
+    </p>
+
+    <h2>How Does It Work?</h2>
+    <p>
+      On average, a person burns about <strong>0.04 to 0.06 calories per step</strong>.
+      Heavier individuals burn slightly more calories per step than lighter individuals.
+      This tool uses a scientifically accepted formula to give you a close estimate.
+    </p>
+
+    <h2>Why Track Calories Burned?</h2>
+    <p>
+      Tracking calories helps with weight loss, fitness goals, and maintaining a healthy lifestyle.
+      Walking is one of the easiest and safest ways to stay active every day.
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <p>
+    © 2025 Steps to Calories Calculator |
+    <a href="#">Privacy Policy</a> |
+    <a href="#">Contact</a>
+  </p>
+</footer>
+
+<script>
+function calculate(){
+  const steps = Number(document.getElementById("steps").value);
+  let weight = Number(document.getElementById("weight").value);
+  const unit = document.getElementById("unit").value;
+  const resultBox = document.getElementById("result");
+
+  if(!steps || !weight){
+    alert("Please enter steps and weight");
+    return;
+  }
+
+  if(unit==="lb"){
+    weight = weight * 0.453592; // convert to kg
+  }
+
+  // Calories burned per step formula
+  const calories = steps * (0.04 + (weight * 0.0005));
+
+  resultBox.style.display="block";
+  resultBox.innerHTML = `
+    <h3>Results</h3>
+    <p><strong>Steps:</strong> ${steps.toLocaleString()}</p>
+    <p><strong>Estimated Calories Burned:</strong> ${calories.toFixed(2)} kcal</p>
+    <p style="margin-top:10px;">Keep moving! Every step counts 💪</p>
+  `;
+}
+</script>
+
+</body>
+</html>

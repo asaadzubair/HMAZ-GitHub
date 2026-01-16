@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niche For Sale</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #eff6ff;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --radius: 16px;
+            --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        /* Typography */
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        /* Form Layout */
+        .form-section {
+            background: #fff;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 1.5em;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Form Controls */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        input,
+        select {
+            padding: 0.875rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            outline: none;
+            width: 100%;
+            background-color: #fff;
+            color: var(--text-main);
+        }
+
+        input:hover,
+        select:hover {
+            border-color: #cbd5e1;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f8fafc;
+            color: var(--text-main);
+            border-color: #cbd5e1;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 640px) {
+            .form-section {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Niche For Sale</h1>
+        <p class="subtitle">Enter the required details of the niche you want to sell below.</p>
+
+        <form id="statsForm" onsubmit="event.preventDefault();">
+            <!-- Niche Stats Section -->
+            <div class="form-section">
+                <div class="section-title">Niche Statistics</div>
+
+                <div class="form-group">
+                    <label for="nicheType">Niche Type *</label>
+                    <select id="nicheType" required>
+                        <option value="" disabled selected>Select Type</option>
+                        <option value="APK">APK</option>
+                        <option value="Menu">Menu</option>
+                        <option value="Informational">Informational</option>
+                        <option value="Tool">Tool</option>
+                        <option value="SaaS">SaaS</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="countryInput">Target Country *</label>
+                    <input list="countryList" id="countryInput" placeholder="Search country..." required>
+                    <datalist id="countryList"></datalist>
+                </div>
+
+                <div class="form-group">
+                    <label for="globalVol">Global Search Volume *</label>
+                    <input type="number" id="globalVol" placeholder="0" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="countryVol">Country Search Volume *</label>
+                    <input type="number" id="countryVol" placeholder="0" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mozKd">MOZ KD (1-100) *</label>
+                    <select id="mozKd" required>
+                        <option value="" disabled selected>Select KD</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="lowDr">Low DR Sites (1-10) *</label>
+                    <select id="lowDr" required>
+                        <option value="" disabled selected>Select Count</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="siteTraffic">Lowest DR Site Traffic *</label>
+                    <input type="number" id="siteTraffic" placeholder="0" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="googleTrend">Google Trend *</label>
+                    <select id="googleTrend" required>
+                        <option value="" disabled selected>Select Trend</option>
+                        <option value="Stable (1-5 Years)">Stable (1-5 Years)</option>
+                        <option value="Growing">Growing</option>
+                        <option value="Declining">Declining</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Seller & Pricing Section -->
+            <div class="form-section">
+                <div class="section-title">Seller & Pricing Details</div>
+
+                <div class="form-group">
+                    <label for="sellerName">Seller Name *</label>
+                    <input type="text" id="sellerName" placeholder="Enter your name here" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactNum">Contact Number *</label>
+                    <input type="text" id="contactNum" placeholder="Enter your number here" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="price">Asking Price (PKR)</label>
+                    <input type="number" id="price" placeholder="Leave empty if negotiable" min="0">
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" class="btn-secondary" onclick="resetForm()">
+                    ↺ Reset Form
+                </button>
+                <button type="submit" class="btn-primary" onclick="generateReport()">
+                    ⬇ Generate Image
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Image Downloaded Successfully!</div>
+
+    <!-- Hidden Canvas -->
+    <canvas id="exportCanvas" style="display: none;"></canvas>
+
+    <script>
+        // --- 1. Data & Initialization ---
+        const countries = [
+            "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+            "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
+            "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic",
+            "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+            "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia",
+            "Fiji", "Finland", "France",
+            "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+            "Haiti", "Honduras", "Hungary",
+            "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", " Israel", "Italy", "Ivory Coast",
+            "Jamaica", "Japan", "Jordan",
+            "Kazakhstan", "Kenya", "Kiribati", "Korea, North", "Korea, South", "Kosovo", "Kuwait", "Kyrgyzstan",
+            "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+            "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+            "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Macedonia", "Norway",
+            "Oman",
+            "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
+            "Qatar",
+            "Romania", "Russia", "Rwanda",
+            "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+            "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+            "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan",
+            "Vanuatu", "Vatican City", "Venezuela", "Vietnam",
+            "Yemen",
+            "Zambia", "Zimbabwe"
+        ];
+
+        window.onload = function () {
+            // Populate Country List
+            const list = document.getElementById('countryList');
+            countries.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c;
+                list.appendChild(opt);
+            });
+
+            // Populate Dropdowns
+            const moz = document.getElementById('mozKd');
+            for (let i = 1; i <= 100; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = i;
+                moz.appendChild(opt);
+            }
+
+            const dr = document.getElementById('lowDr');
+            for (let i = 1; i <= 10; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = i;
+                dr.appendChild(opt);
+            }
+        };
+
+        // --- 2. Helper Functions ---
+        function formatNumber(num) {
+            return new Intl.NumberFormat().format(num);
+        }
+
+        function resetForm() {
+            document.getElementById('statsForm').reset();
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(i => i.style.borderColor = '#e2e8f0');
+        }
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.background = isError ? '#ef4444' : '#1e293b';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function validate() {
+            const required = ['nicheType', 'countryInput', 'globalVol', 'countryVol', 'mozKd', 'lowDr', 'siteTraffic', 'googleTrend', 'sellerName', 'contactNum'];
+            let valid = true;
+            required.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el.value.trim()) {
+                    el.style.borderColor = '#ef4444';
+                    valid = false;
+                } else {
+                    el.style.borderColor = '#e2e8f0';
+                }
+            });
+            return valid;
+        }
+
+        // --- 3. Report Generation logic ---
+        function generateReport() {
+            if (!validate()) {
+                showToast('Please fill in all required fields.', true);
+                return;
+            }
+
+            const data = {
+                type: document.getElementById('nicheType').value,
+                country: document.getElementById('countryInput').value,
+                global: formatNumber(document.getElementById('globalVol').value),
+                local: formatNumber(document.getElementById('countryVol').value),
+                moz: document.getElementById('mozKd').value,
+                lowDr: document.getElementById('lowDr').value,
+                traffic: formatNumber(document.getElementById('siteTraffic').value),
+                trend: document.getElementById('googleTrend').value,
+                seller: document.getElementById('sellerName').value,
+                contact: document.getElementById('contactNum').value,
+                price: document.getElementById('price').value
+            };
+
+            drawCanvas(data);
+        }
+
+        // --- 4. Drawing Engine ---
+        // --- 4. Drawing Engine ---
+        function drawCanvas(data) {
+            const canvas = document.getElementById('exportCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Dimensions - Standard Invoice Ratio
+            const width = 1200;
+            const height = 1600;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            // -- Visual Settings --
+            const fontMain = 'Inter, sans-serif';
+            const cBg = '#ffffff';
+            const cPrimary = '#2563eb';
+            const cTextMain = '#1e293b'; // Slate 800
+            const cTextMuted = '#64748b'; // Slate 500
+            const cCardBg = '#ffffff';
+            const cCardBorder = '#e2e8f0';
+
+            // -- Background --
+            ctx.fillStyle = cBg;
+            ctx.fillRect(0, 0, width, height);
+
+            // -- Helper: Rounded Rect --
+            function roundedRect(x, y, w, h, r) {
+                ctx.beginPath();
+                ctx.moveTo(x + r, y);
+                ctx.lineTo(x + w - r, y);
+                ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+                ctx.lineTo(x + w, y + h - r);
+                ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+                ctx.lineTo(x + r, y + h);
+                ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+                ctx.lineTo(x, y + r);
+                ctx.quadraticCurveTo(x, y, x + r, y);
+                ctx.closePath();
+            }
+
+            // -- Header --
+            // Subtle top accent line
+            ctx.fillStyle = cPrimary;
+            ctx.fillRect(0, 0, width, 16);
+
+            let cy = 130;
+            const cx = width / 2;
+
+            // Header Subtitle
+            ctx.textAlign = 'center';
+            ctx.fillStyle = cTextMuted;
+            ctx.font = '600 30px ' + fontMain;
+            ctx.letterSpacing = '0.1em';
+            ctx.fillText("NICHE FOR SALE", cx, cy);
+
+            cy += 90;
+
+            // Niche Type (Main Title)
+            // Balanced, not overly heavy
+            ctx.fillStyle = cTextMain;
+            ctx.font = '700 90px ' + fontMain;
+            ctx.letterSpacing = '-0.02em';
+            ctx.fillText(data.type, cx, cy);
+
+            cy += 80;
+
+            // Subtle Divider
+            ctx.strokeStyle = cCardBorder;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(cx - 60, cy);
+            ctx.lineTo(cx + 60, cy);
+            ctx.stroke();
+
+            cy += 100;
+
+            // -- Data Grid --
+            const gridPad = 100;
+            const colGap = 40;
+            const rowGap = 40;
+            const colW = (width - (gridPad * 2) - colGap) / 2;
+            const cardH = 140;
+
+            // Data Mapping
+            const stats = [
+                { label: 'Country', val: data.country },
+                { label: 'Google Trend', val: data.trend },
+                { label: 'Global Volume', val: data.global },
+                { label: 'Country Volume', val: data.local },
+                { label: 'Moz Difficulty', val: 'KD ' + data.moz },
+                { label: 'Low DR Sites', val: data.lowDr },
+            ];
+
+            // Card Drawer Helper
+            function drawStatCard(x, y, w, h, label, value) {
+                // Background & Shadow
+                ctx.shadowColor = 'rgba(0,0,0,0.04)';
+                ctx.shadowBlur = 12;
+                ctx.shadowOffsetY = 6;
+                ctx.fillStyle = cCardBg;
+
+                roundedRect(x, y, w, h, 16);
+                ctx.fill();
+
+                // Border
+                ctx.shadowColor = 'transparent';
+                ctx.strokeStyle = cCardBorder;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Text
+                ctx.textAlign = 'left';
+
+                // Label
+                ctx.fillStyle = cTextMuted;
+                ctx.font = '600 16px ' + fontMain;
+                ctx.letterSpacing = '0.05em';
+                ctx.fillText(label.toUpperCase(), x + 32, y + 48);
+
+                // Value
+                ctx.fillStyle = cTextMain;
+                ctx.font = '600 36px ' + fontMain;
+                ctx.letterSpacing = '-0.01em';
+                ctx.fillText(value, x + 32, y + 96);
+            }
+
+            // Draw Grid
+            let statIdx = 0;
+            for (let r = 0; r < 3; r++) {
+                for (let c = 0; c < 2; c++) {
+                    if (statIdx >= stats.length) break;
+
+                    let item = stats[statIdx];
+                    let px = gridPad + c * (colW + colGap);
+                    let py = cy + r * (cardH + rowGap);
+
+                    drawStatCard(px, py, colW, cardH, item.label, item.val);
+                    statIdx++;
+                }
+            }
+
+            cy += 3 * (cardH + rowGap);
+
+            // Full Width Traffic Card
+            let trafficVal = data.traffic;
+            if (!trafficVal.toString().toLowerCase().includes('visit')) {
+                trafficVal;
+            }
+            drawStatCard(gridPad, cy, width - (gridPad * 2), cardH, 'Lowest DR Site Traffic', trafficVal);
+
+            cy += cardH + 120; // Margin before footer
+
+            // -- Footer: Seller & Price --
+            const footerX = gridPad;
+
+            // Left: Seller Info
+            ctx.textAlign = 'left';
+
+            ctx.fillStyle = cTextMuted;
+            ctx.font = '700 18px ' + fontMain;
+            ctx.letterSpacing = '0.05em';
+            ctx.fillText("SELLER CONTACT", footerX, cy);
+
+            let txtY = cy + 45;
+
+            ctx.fillStyle = cTextMain;
+            ctx.font = '700 32px ' + fontMain;
+            ctx.letterSpacing = '-0.01em';
+            ctx.fillText(data.seller, footerX, txtY);
+
+            txtY += 35;
+            ctx.fillStyle = cTextMuted;
+            ctx.font = '500 24px ' + fontMain;
+            ctx.fillText(data.contact, footerX, txtY);
+
+            // Right: Price
+            const rightEdge = width - gridPad;
+            ctx.textAlign = 'right';
+
+            ctx.fillStyle = cTextMuted;
+            ctx.font = '700 18px ' + fontMain;
+            ctx.letterSpacing = '0.05em';
+            ctx.fillText("ASKING PRICE", rightEdge, cy);
+
+            let displayPrice = data.price ? "PKR " + formatNumber(data.price) : "Contact for Price";
+
+            ctx.fillStyle = cPrimary;
+            ctx.font = '700 56px ' + fontMain;
+            ctx.letterSpacing = '-0.02em';
+            ctx.fillText(displayPrice, rightEdge, cy + 65);
+
+            // -- Final Footer Credits --
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#cbd5e1';
+            ctx.font = '500 18px ' + fontMain;
+            ctx.fillText("Generated by HMAZ", width / 2, height - 40);
+
+            // -- Download Trigger --
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.download = 'niche-stats.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                showToast("Image Downloaded Successfully!");
+            }, 600);
+        }
+    </script>
+</body>
+
+</html>

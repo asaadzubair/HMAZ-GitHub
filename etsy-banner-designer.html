@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etsy Banner Designer | Digital Craft Lab Co</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0F172A;
+            --accent: #0EA5E9;
+            --white: #FFFFFF;
+            --bg: #F8FAFC;
+            --gray-200: #E2E8F0;
+            --gray-600: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #EEF2F6;
+            padding: 40px;
+            color: var(--navy);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ui-container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        /* Mobile Banner Crop (Original Helper) */
+        .mobile-banner-crop {
+            width: 100%;
+            height: 60px;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.6);
+        }
+
+        canvas {
+            display: none;
+        }
+
+        .format-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .format-btn {
+            background: white;
+            border: 2px solid var(--gray-200);
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            color: var(--gray-600);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-width: 160px;
+        }
+
+        .format-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .format-btn span:last-child {
+            font-size: 11px;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+
+        .format-btn.active {
+            border-color: var(--navy);
+            color: var(--navy);
+            background: #f1f5f9;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+        }
+
+        /* Banner Preview Window (Dynamic) */
+        .banner-preview-wrapper {
+            width: 100%;
+            background: white;
+            padding: 60px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 480px;
+            justify-content: center;
+        }
+
+        .banner-container {
+            position: relative;
+            background: var(--white);
+            border: 1px solid #eee;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Aspect Ratios for Preview - Responsive Scaling */
+        .ratio-etsy {
+            width: 100%;
+            max-width: 1000px;
+            aspect-ratio: 4 / 1;
+        }
+
+        .ratio-fb {
+            width: 100%;
+            max-width: 820px;
+            aspect-ratio: 820 / 312;
+        }
+
+        .ratio-ig {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1 / 1;
+        }
+
+        .banner-preview-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        #preview-tagline {
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+
+        .keyword-strip {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 40px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .keyword-strip span {
+            white-space: nowrap;
+        }
+
+        #device-preview-section {
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        #device-preview-section.hidden {
+            display: none !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ui-container">
+        <header>
+            <h1>Brand Asset Generator</h1>
+            <p class="subtitle">Premium Studio Quality • Multi-Format Design System</p>
+        </header>
+
+        <div class="format-selector">
+            <button class="format-btn active" onclick="setFormat('etsy')" id="btn-etsy">
+                <span>Etsy Banner</span>
+                <span>3360 × 840 px</span>
+            </button>
+            <button class="format-btn" onclick="setFormat('fb')" id="btn-fb">
+                <span>Facebook Banner</span>
+                <span>820 × 312 px</span>
+            </button>
+            <button class="format-btn" onclick="setFormat('ig')" id="btn-ig">
+                <span>Instagram Post</span>
+                <span>1080 × 1080 px</span>
+            </button>
+        </div>
+
+        <div class="banner-preview-wrapper">
+            <div class="banner-container ratio-etsy" id="banner-design">
+                <div class="accent-line-top"></div>
+                <div class="grid-detail">#</div>
+
+                <div class="banner-preview-content">
+                    <div class="banner-icon" id="preview-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="15" fill="#0F172A" />
+                            <rect x="20" y="20" width="25" height="25" rx="5" fill="#0EA5E9" />
+                            <rect x="55" y="20" width="25" height="60" rx="5" fill="white" fill-opacity="0.1" />
+                            <rect x="20" y="55" width="25" height="25" rx="5" fill="white" fill-opacity="0.1" />
+                        </svg>
+                    </div>
+
+                    <div class="banner-title" id="preview-title">Digital Craft Lab Co</div>
+                    <div class="banner-tagline" id="preview-tagline">A Digital Studio Creating Professional Digital
+                        Products For
+                        Personal & Business Use</div>
+
+                    <div class="keyword-strip" id="preview-keywords">
+                        <div class="separator"></div>
+                        <span>Planners</span>
+                        <div class="separator"></div>
+                        <span>Trackers</span>
+                        <div class="separator"></div>
+                        <span>Templates</span>
+                        <div class="separator"></div>
+                        <span>Journals</span>
+                        <div class="separator"></div>
+                        <span>Invitations</span>
+                        <div class="separator"></div>
+                        <span>Cards</span>
+                        <div class="separator"></div>
+                        <span>Posters</span>
+                        <div class="separator"></div>
+                        <span>Sheets</span>
+                        <div class="separator"></div>
+                        <span>Banners</span>
+                    </div>
+                </div>
+            </div>
+            <p class="safe-area-label" id="safe-area-text">MOBILE SAFE CENTER ALIGNMENT</p>
+        </div>
+
+        <button class="btn-download" onclick="exportCurrentFormat()">
+            <span id="download-text">Download 3360 × 840 px Banner</span>
+        </button>
+
+        <div class="device-preview" id="device-preview-section">
+            <div style="text-align: center;">
+                <p style="font-size: 12px; margin-bottom: 8px; font-weight: 600;">Desktop Ratio</p>
+                <div
+                    style="width: 320px; height: 180px; background: #fff; border: 4px solid #ddd; border-radius: 8px; padding: 10px;">
+                    <div style="width: 100%; height: 30px; background: #f5f5f5; margin-bottom: 5px;"></div>
+                    <div
+                        style="width: 100%; height: 40px; background: #fff; border: 1px solid #eee; display: flex; align-items:center; justify-content:center;">
+                        <span style="font-size: 6px; opacity: 0.3;">Banner Scale Preview</span>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <p style="font-size: 12px; margin-bottom: 8px; font-weight: 600;">Mobile View</p>
+                <div class="mobile-preview">
+                    <div style="height: 15px; background: #f1f1f1; border-bottom: 1px solid #ddd;"></div>
+                    <div
+                        style="height: 40px; background: #fff; border-bottom: 1px solid #eee; display: flex; align-items:center; justify-content:center;">
+                        <div
+                            style="transform: scale(0.2); width:100%; display: flex; flex-direction: column; align-items:center;">
+                            <div class="banner-icon" style="width:80px;height:80px;margin-bottom:20px;">
+                                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    style="width:100px;">
+                                    <rect width="100" height="100" rx="15" fill="#0F172A" />
+                                    <rect x="25" y="25" width="20" height="20" rx="4" fill="#0EA5E9" />
+                                </svg>
+                            </div>
+                            <span style="font-size: 40px; font-family: Outfit; font-weight:700;">Digital Craft Lab
+                                Co</span>
+                        </div>
+                    </div>
+                    <div style="padding: 10px;">
+                        <div style="height: 20px; background: #eee; width: 40%; margin-bottom: 5px;"></div>
+                        <div style="height: 50px; background: #f9f9f9; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 60px; padding-bottom: 40px; opacity: 0.5; font-size: 12px;">
+            Designed for high conversion and brand authority.
+        </footer>
+    </div>
+
+    <canvas id="exportCanvas"></canvas>
+
+    <script>
+        const formats = {
+            etsy: {
+                width: 3360,
+                height: 840,
+                ratioClass: 'ratio-etsy',
+                label: 'Etsy Banner',
+                filename: 'DigitalCraftLab_Etsy_Banner',
+                safeText: 'MOBILE SAFE CENTER ALIGNMENT',
+                scales: {
+                    icon: 180,
+                    title: 110,
+                    tagline: 56,
+                    keywords: 32,
+                    taglineY: 140,
+                    keywordsY: 250,
+                    iconYOffset: -250,
+                    titleYOffset: 50,
+                    decorSize: 1500
+                }
+            },
+            fb: {
+                width: 820,
+                height: 312,
+                ratioClass: 'ratio-fb',
+                label: 'Facebook Banner',
+                filename: 'DigitalCraftLab_FB_Banner',
+                safeText: 'CENTER-SAFE LAYOUT FOR MOBILE VISIBILITY',
+                scales: {
+                    icon: 65,
+                    title: 38,
+                    tagline: 18,
+                    keywords: 12,
+                    taglineY: 45,
+                    keywordsY: 105,
+                    iconYOffset: -100,
+                    titleYOffset: 15,
+                    decorSize: 450
+                }
+            },
+            ig: {
+                width: 1080,
+                height: 1080,
+                ratioClass: 'ratio-ig',
+                label: 'Instagram Post',
+                filename: 'DigitalCraftLab_IG_Post',
+                safeText: 'STAY INSIDE SQUARE SAFE ZONE',
+                scales: {
+                    icon: 280,
+                    title: 92,
+                    tagline: 42,
+                    keywords: 30,
+                    taglineY: 120,
+                    keywordsY: 360,
+                    iconYOffset: -340,
+                    titleYOffset: 30,
+                    decorSize: 1600
+                }
+            }
+        };
+
+        let currentFormat = 'etsy';
+
+        function setFormat(formatKey) {
+            currentFormat = formatKey;
+            const config = formats[formatKey];
+
+            // Update UI
+            document.querySelectorAll('.format-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${formatKey}`).classList.add('active');
+
+            const container = document.getElementById('banner-design');
+            container.className = `banner-container ${config.ratioClass}`;
+
+            document.getElementById('download-text').innerText = `Download ${config.width} × ${config.height} px ${config.label}`;
+            document.getElementById('safe-area-text').innerText = config.safeText;
+
+            // Show/Hide Etsy device preview
+            const deviceSection = document.getElementById('device-preview-section');
+            if (formatKey === 'etsy') {
+                deviceSection.classList.remove('hidden');
+            } else {
+                deviceSection.classList.add('hidden');
+            }
+
+            // Adjust Preview CSS scales to match the new container
+            updatePreviewStyles(formatKey);
+        }
+
+        function updatePreviewStyles(formatKey) {
+            const config = formats[formatKey];
+            const title = document.getElementById('preview-title');
+            const tagline = document.getElementById('preview-tagline');
+            const keywords = document.getElementById('preview-keywords');
+            const icon = document.getElementById('preview-icon');
+
+            // Container relative scaling for preview
+            const baseSize = formatKey === 'ig' ? 500 : 1000;
+            const sf = baseSize / (formatKey === 'ig' ? 100 : 100); // Scale factor helper
+
+            if (formatKey === 'etsy') {
+                title.style.fontSize = '3.2vw';
+                tagline.style.fontSize = '1.6vw';
+                keywords.style.fontSize = '1vw';
+                icon.style.width = '5.5vw';
+                icon.style.height = '5.5vw';
+                tagline.style.letterSpacing = '0.15em';
+                icon.style.marginBottom = '2vw';
+                tagline.style.marginBottom = '2.4vw';
+                tagline.style.maxWidth = '100%';
+                tagline.style.whiteSpace = 'nowrap';
+            } else if (formatKey === 'fb') {
+                title.style.fontSize = '4.6vw';
+                tagline.style.fontSize = '2.2vw';
+                keywords.style.fontSize = '1.4vw';
+                icon.style.width = '8vw';
+                icon.style.height = '8vw';
+                tagline.style.letterSpacing = '0.05em';
+                icon.style.marginBottom = '1.2vw';
+                tagline.style.marginBottom = '2vw';
+                tagline.style.maxWidth = '85%';
+            } else if (formatKey === 'ig') {
+                title.style.fontSize = '8.5vw';
+                tagline.style.fontSize = '3.8vw';
+                keywords.style.fontSize = '2.8vw';
+                icon.style.width = '26vw';
+                icon.style.height = '26vw';
+                tagline.style.letterSpacing = '0.05em';
+                icon.style.marginBottom = '4vw';
+                tagline.style.marginBottom = '6vw';
+                tagline.style.maxWidth = '80%';
+            }
+        }
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let testLine = '';
+            let lineCount = 0;
+            const lines = [];
+
+            for (let n = 0; n < words.length; n++) {
+                testLine = line + words[n] + ' ';
+                const metrics = ctx.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    lines.push(line);
+                    line = words[n] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line);
+
+            for (let i = 0; i < lines.length; i++) {
+                ctx.fillText(lines[i].trim(), x, y + (i * lineHeight));
+            }
+            return lines.length * lineHeight;
+        }
+
+        function exportCurrentFormat() {
+            const config = formats[currentFormat];
+            const canvas = document.getElementById('exportCanvas');
+            const ctx = canvas.getContext('2d');
+            const W = config.width;
+            const H = config.height;
+
+            canvas.width = W;
+            canvas.height = H;
+
+            // Draw Process
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, W, H);
+
+            // Accent Top
+            ctx.fillStyle = "#0F172A";
+            ctx.fillRect(0, 0, W, Math.max(8, Math.round(H * 0.015)));
+
+            document.fonts.ready.then(() => {
+                const centerX = W / 2;
+                const centerY = H / 2;
+                const s = config.scales;
+
+                // Grid Decor (# Background) - Calibrated per format
+                ctx.fillStyle = "rgba(15, 23, 42, 0.035)";
+                ctx.font = `bold ${s.decorSize}px sans-serif`;
+                ctx.textAlign = "left";
+                ctx.fillText("#", W * 0.65, currentFormat === 'etsy' ? H * 1.3 : H * 1.1);
+
+                // Draw Icon
+                const iconX = centerX - (s.icon / 2);
+                const iconY = centerY + s.iconYOffset;
+
+                ctx.fillStyle = "#0F172A";
+                roundRect(ctx, iconX, iconY, s.icon, s.icon, s.icon * 0.15);
+
+                ctx.fillStyle = "#0EA5E9";
+                roundRect(ctx, iconX + (s.icon * 0.22), iconY + (s.icon * 0.22), s.icon * 0.27, s.icon * 0.27, s.icon * 0.05);
+
+                ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+                roundRect(ctx, iconX + (s.icon * 0.58), iconY + (s.icon * 0.22), s.icon * 0.25, s.icon * 0.66, s.icon * 0.05);
+                roundRect(ctx, iconX + (s.icon * 0.22), iconY + (s.icon * 0.58), s.icon * 0.25, s.icon * 0.3, s.icon * 0.05);
+
+                // Title
+                ctx.fillStyle = "#0F172A";
+                ctx.textAlign = "center";
+                ctx.font = `bold ${s.title}px Outfit, sans-serif`;
+                ctx.fillText("Digital Craft Lab Co", centerX, centerY + s.titleYOffset);
+
+                // Tagline Drawing
+                ctx.font = `300 ${s.tagline}px Inter, sans-serif`;
+                ctx.letterSpacing = (currentFormat === 'etsy') ? "15px" : "4px";
+                ctx.fillStyle = "#475569";
+                const taglineText = "A Digital Studio Creating Professional Digital Products For Personal & Business Use";
+
+                if (currentFormat === 'etsy') {
+                    // Force Etsy tagline on a single line with auto-scaling
+                    let currentTaglineSize = s.tagline;
+                    let maxW = W * 0.95;
+                    ctx.font = `300 ${currentTaglineSize}px Inter, sans-serif`;
+                    let tw = ctx.measureText(taglineText).width;
+
+                    while (tw > maxW && currentTaglineSize > 20) {
+                        currentTaglineSize -= 2;
+                        ctx.font = `300 ${currentTaglineSize}px Inter, sans-serif`;
+                        tw = ctx.measureText(taglineText).width;
+                    }
+                    ctx.fillText(taglineText, centerX, centerY + s.taglineY);
+                } else {
+                    // Wrap for FB/IG
+                    const maxTaglineWidth = W * 0.85;
+                    wrapText(ctx, taglineText, centerX, centerY + s.taglineY, maxTaglineWidth, s.tagline * 1.4);
+                }
+                ctx.letterSpacing = "0px";
+
+                // Keyword Strip
+                const keywords = ["Planners", "Trackers", "Templates", "Journals", "Invitations", "Cards", "Posters", "Sheets", "Banners"];
+                let keywordFontSize = s.keywords;
+                ctx.font = `600 ${keywordFontSize}px Inter, sans-serif`;
+                ctx.fillStyle = "rgba(71, 85, 105, 0.6)";
+
+                // Single-line Keyword Drawing with Auto-Scaling
+                let currentY = centerY + s.keywordsY;
+                let dotGap = keywordFontSize * 1.8;
+                const maxKeywordsWidth = W * 0.95;
+
+                const calculateTotalWidth = (fSize) => {
+                    ctx.font = `600 ${fSize}px Inter, sans-serif`;
+                    let totalW = fSize * 1.8; // Initial leading dot gap
+                    keywords.forEach((word, i) => {
+                        totalW += ctx.measureText(word.toUpperCase()).width;
+                        if (i < keywords.length - 1) totalW += fSize * 1.8;
+                    });
+                    return totalW;
+                };
+
+                // Auto-scale font size if needed
+                let currentW = calculateTotalWidth(keywordFontSize);
+                while (currentW > maxKeywordsWidth && keywordFontSize > 8) {
+                    keywordFontSize -= 1;
+                    currentW = calculateTotalWidth(keywordFontSize);
+                }
+
+                const finalDotGap = keywordFontSize * 1.8;
+                ctx.font = `600 ${keywordFontSize}px Inter, sans-serif`;
+                let sx = centerX - (currentW / 2);
+
+                // Leading Dot
+                ctx.fillStyle = "#0EA5E9";
+                ctx.beginPath();
+                ctx.arc(sx + (finalDotGap / 2), currentY - (keywordFontSize * 0.3), keywordFontSize * 0.18, 0, Math.PI * 2);
+                ctx.fill();
+                sx += finalDotGap;
+
+                keywords.forEach((word, i) => {
+                    ctx.fillStyle = "rgba(71, 85, 105, 0.6)";
+                    ctx.textAlign = "left";
+                    ctx.fillText(word.toUpperCase(), sx, currentY);
+                    sx += ctx.measureText(word.toUpperCase()).width;
+
+                    if (i < keywords.length - 1) {
+                        ctx.fillStyle = "#0EA5E9";
+                        ctx.beginPath();
+                        ctx.arc(sx + (finalDotGap / 2), currentY - (keywordFontSize * 0.3), keywordFontSize * 0.18, 0, Math.PI * 2);
+                        ctx.fill();
+                        sx += finalDotGap;
+                    }
+                });
+
+                // Download
+                const link = document.createElement('a');
+                link.download = `${config.filename}_${config.width}x${config.height}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+            });
+        }
+
+        function roundRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setFormat('etsy');
+        });
+    </script>
+</body>
+
+</html>
